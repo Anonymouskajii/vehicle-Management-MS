@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+        body {
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            {% comment %} padding: 40px 20px; {% endcomment %}
+            text-align: center;
+        }
+        
+        .cover-image {
+            background-image: cover;
+            align: center;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        h1 {
+            color: black;
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: black;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 12px 24px;
+            font-size: 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+      
+        
+        .animation {
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+</head>
+
+<body>
+  {% include "vehicle/navbar.html" %}
+  <br><br>
+  <div class="container">
+        <h1 class="animation">Vehicle Service Management System</h1>
+        <p class="animation">Efficiently manage your fleet of vehicles</p>
+        <img src="static/images/coverpic.jpg" alt="Cover Image" class="cover-image">
+       
+    </div>
+  </div>
+
+  <script>
+        window.addEventListener('load', function() {
+            const elements = document.querySelectorAll('.animation');
+            elements.forEach(element => {
+                element.style.animationDelay = (Math.random() * 0.5) + 's';
+                element.classList.add('animation');
+            });
+        });
+    </script>
+
+<br><br><br><br><br>
+  {% include "vehicle/footer.html" %}
+
+
+</body>
+
+</html>
