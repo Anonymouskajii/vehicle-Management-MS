@@ -23,11 +23,6 @@ def customerclick_view(request):
         return HttpResponseRedirect('afterlogin')
     return render(request,'vehicle/customerclick.html')
 
-#for showing signup/login button for mechanics
-def mechanicsclick_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
-    return render(request,'vehicle/mechanicsclick.html')
 
 
 #for showing signup/login button for ADMIN(by sumit)
@@ -57,42 +52,14 @@ def customer_signup_view(request):
     return render(request,'vehicle/customersignup.html',context=mydict)
 
 
-def mechanic_signup_view(request):
-    userForm=forms.MechanicUserForm()
-    mechanicForm=forms.MechanicForm()
-    mydict={'userForm':userForm,'mechanicForm':mechanicForm}
-    if request.method=='POST':
-        userForm=forms.MechanicUserForm(request.POST)
-        mechanicForm=forms.MechanicForm(request.POST,request.FILES)
-        if userForm.is_valid() and mechanicForm.is_valid():
-            user=userForm.save()
-            user.set_password(user.password)
-            user.save()
-            mechanic=mechanicForm.save(commit=False)
-            mechanic.user=user
-            mechanic.save()
-            my_mechanic_group = Group.objects.get_or_create(name='MECHANIC')
-            my_mechanic_group[0].user_set.add(user)
-        return HttpResponseRedirect('mechaniclogin')
-    return render(request,'vehicle/mechanicsignup.html',context=mydict)
-
-
 #for checking user customer, mechanic or admin(by sumit)
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
-def is_mechanic(user):
-    return user.groups.filter(name='MECHANIC').exists()
 
 
 def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-dashboard')
-    elif is_mechanic(request.user):
-        accountapproval=models.Mechanic.objects.all().filter(user_id=request.user.id,status=True)
-        if accountapproval:
-            return redirect('mechanic-dashboard')
-        else:
-            return render(request,'vehicle/mechanic_wait_for_approval.html')
     else:
         return redirect('admin-dashboard')
 
@@ -207,7 +174,7 @@ def admin_request_view(request):
     for r in enquiry:
         customer=models.Customer.objects.get(id=r.customer_id)
         customers.append(customer)
-    return render(request,'vehicle/admin_approve_request.html', context={'customer': customer})
+    return render(request,'vehicle/admin_approve_request.html', context={'enquiry': enquiry})
 
 
 @login_required(login_url='adminlogin')

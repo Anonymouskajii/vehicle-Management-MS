@@ -21,15 +21,15 @@
                   <th>Vehicle Number</th>
                   <th>Problem Description</th>
                   <th>Approve</th>
-                  
                 </tr>
                 {% for r in enquiry %}
+				<tr>
                   <td> {{r.vehicle_name}}</td>
-				  <td>HELLO</td>
                   <td>{{r.category}}</td>
                   <td>{{r.vehicle_no}}</td>
                   <td>{{r.problem_description}}</td>
                   <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'approve-request' r.id  %}">&#10004;</a></td>
+				</tr>
                 {% endfor %}
 			</table>
 					</div>
